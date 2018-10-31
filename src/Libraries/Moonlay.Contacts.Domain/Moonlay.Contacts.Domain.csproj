@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Entities\**" />
+    <Compile Remove="ReadModel\**" />
+    <EmbeddedResource Remove="Entities\**" />
+    <EmbeddedResource Remove="ReadModel\**" />
+    <None Remove="Entities\**" />
+    <None Remove="ReadModel\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moonlay.Domain" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>
