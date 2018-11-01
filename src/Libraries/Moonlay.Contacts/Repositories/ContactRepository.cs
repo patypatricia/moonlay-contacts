@@ -5,6 +5,7 @@ using Moonlay.Domain;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Moonlay.Contacts.Repositories
@@ -31,6 +32,14 @@ namespace Moonlay.Contacts.Repositories
             _dbContext.Contacts.Add(contact);
 
             return Task.FromResult(contact);
+        }
+
+        public IEnumerable<Contact> GetAllAsync(int page, int pageSize)
+        {
+            return _dbContext.Contacts.OrderBy(o => o.Names)
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .ToList();
         }
 
         public Task<Contact> GetAsync(int contactId)

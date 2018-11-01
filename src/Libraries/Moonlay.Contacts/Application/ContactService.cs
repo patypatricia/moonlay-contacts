@@ -16,18 +16,18 @@ namespace Moonlay.Contacts.Application
             _contactRepository = contactRepository;
         }
 
-        public async Task<GenericResponse<Contact>> AddPeopleAsync(People people)
+        public async Task<Contact> AddPeopleAsync(People people)
         {
             var contact = await _contactRepository.AddAsync(people);
 
             await _contactRepository.UnitOfWork.SaveChangesAsync();
 
-            return new GenericResponse<Contact>(true, contact);
+            return contact;
         }
 
-        public Task<GenericResponse<IEnumerable<Contact>>> FindAllAsync(int page, int pageSize)
+        public Task<IEnumerable<Contact>> FindAllAsync(int page, int pageSize)
         {
-            return Task.FromResult(new GenericResponse<IEnumerable<Contact>>(true, new Contact[] { }));
+            return Task.FromResult(_contactRepository.GetAllAsync(page, pageSize));
         }
     }
 }
