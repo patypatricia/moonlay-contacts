@@ -25,6 +25,7 @@ namespace Moonlay.Contacts.Domain
         public string AddressJson { get; set; }
         public string PhonesJson { get; set; }
 
+        private Contact() { }
 
         public Contact(Guid identity, List<string> names, List<Address> addresses, List<Phone> phones)
         {

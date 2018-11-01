@@ -5,8 +5,12 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Moonlay.Contacts.Application;
+using Moonlay.Contacts.Models;
+using Moonlay.Domain;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -32,8 +36,12 @@ namespace Moonlay.Faas.Contacts
 
             if(req.Method.ToLower() == "get")
             {
-                var result = await service.FindAllAsync(0, 25);
-                result.RequestId = requestId ?? data?.request_id;
+                var listOfContacts = await service.FindAllAsync(0, 25);
+
+                var result = new GenericResponse<IEnumerable<ContactDto>>(true, listOfContacts.Select(o => new ContactDto { Id = o.Id, Names = o.Names }))
+                {
+                    RequestId = requestId ?? data?.request_id
+                };
 
                 response = new OkObjectResult(result);
             }

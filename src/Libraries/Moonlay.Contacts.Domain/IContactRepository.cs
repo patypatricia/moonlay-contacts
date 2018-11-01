@@ -1,5 +1,6 @@
 ﻿using Moonlay.Contacts.Domain.ValueObjects;
 using Moonlay.Domain;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Moonlay.Contacts.Domain
@@ -11,6 +12,6 @@ namespace Moonlay.Contacts.Domain
         Task UpdateAsync(Contact contact);
 
         Task<Contact> GetAsync(int contactId);
-
+        IEnumerable<Contact> GetAllAsync(int page, int pageSize);
     }
 }
