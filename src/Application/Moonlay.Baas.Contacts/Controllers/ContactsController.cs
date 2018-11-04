@@ -23,12 +23,12 @@ namespace Moonlay.Baas.Contacts.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ContactDto>>> GetAsync(int page = 0, int page_size = 25)
         {
-            var listOfContacts = await _contactService.FindAllAsync(page, page_size);
+            var listOfContacts = await _contactService.GetAllAsync(page, page_size);
 
             string requestId = this.Request.Query["request_id"];
 
             var result = new GenericResponse<IEnumerable<ContactDto>>(true, listOfContacts.Select(o => new ContactDto { Id = o.Id, Names = o.Names }), requestId: requestId);
-            
+
             return Ok(result);
         }
 

@@ -12,9 +12,9 @@ namespace Moonlay.Contacts.Repositories
 {
     public class ContactRepository : IContactRepository
     {
-        private readonly IContactDbContext _dbContext;
+        private readonly ContactDbContext _dbContext;
 
-        public ContactRepository(IContactDbContext dbContext)
+        public ContactRepository(ContactDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -34,12 +34,12 @@ namespace Moonlay.Contacts.Repositories
             return Task.FromResult(contact);
         }
 
-        public IEnumerable<Contact> GetAllAsync(int page, int pageSize)
+        public Task<IEnumerable<Contact>> GetAllAsync(int page, int pageSize)
         {
-            return _dbContext.Contacts.OrderBy(o => o.Names)
+            return Task.FromResult(_dbContext.Contacts.OrderBy(o => o.Names)
                 .Skip(page * pageSize)
                 .Take(pageSize)
-                .ToList();
+                .AsEnumerable());
         }
 
         public Task<Contact> GetAsync(int contactId)

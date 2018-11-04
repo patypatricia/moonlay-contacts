@@ -12,7 +12,9 @@ namespace Moonlay.Contacts.Domain.ValueObjects
         public string Country { get; private set; }
         public string ZipCode { get; private set; }
 
-        private Address() { }
+        private Address()
+        {
+        }
 
         public Address(string name, string street, string city, string state, string country, string zipcode)
         {

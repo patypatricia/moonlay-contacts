@@ -12,6 +12,7 @@ namespace Moonlay.Contacts.Domain
         Task UpdateAsync(Contact contact);
 
         Task<Contact> GetAsync(int contactId);
-        IEnumerable<Contact> GetAllAsync(int page, int pageSize);
+
+        Task<IEnumerable<Contact>> GetAllAsync(int page, int pageSize);
     }
 }

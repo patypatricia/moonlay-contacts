@@ -1,5 +1,4 @@
-﻿
-using Azure.WebJobs.Extensions.DependencyInjection;
+﻿using Azure.WebJobs.Extensions.DependencyInjection;
 using MediatR;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Hosting;
@@ -19,6 +18,7 @@ using System;
 using System.Reflection;
 
 [assembly: WebJobsStartup(typeof(Startup))]
+
 namespace Moonlay.Faas.Contacts
 {
     internal class Startup : IWebJobsStartup
