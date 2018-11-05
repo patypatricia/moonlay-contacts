@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using GraphiQl;
+using GraphQL;
+using GraphQL.Types;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Moonlay.Baas.Contacts.Models;
 using Moonlay.Contacts.Application;
 using Moonlay.Contacts.Data;
 using Moonlay.Contacts.Domain;
 using Moonlay.Contacts.EventHandlers;
 using Moonlay.Contacts.Repositories;
 using Moonlay.Domain;
+using System.Reflection;
 
 namespace Moonlay.Baas.Contacts
 {
@@ -46,11 +43,20 @@ namespace Moonlay.Baas.Contacts
                 });
             });
 
-            services.AddTransient<IContactDbContext>(c => c.GetService<ContactDbContext>());
-            services.AddTransient<IUnitOfWork>(c => c.GetService<ContactDbContext>());
+            services.AddTransient<IContactDbContext>(c => c.GetRequiredService<ContactDbContext>());
+            services.AddTransient<IUnitOfWork>(c => c.GetRequiredService<ContactDbContext>());
 
             services.AddTransient<IContactService, ContactService>();
             services.AddTransient<IContactRepository, ContactRepository>();
+
+            services.AddTransient<IDocumentExecuter, DocumentExecuter>();
+            services.AddTransient<ContactsQuery>();
+            services.AddTransient<ContactsMutation>();
+            services.AddTransient<ContactType>();
+            services.AddTransient<PeopleInputType>();
+
+            var sp = services.BuildServiceProvider();
+            services.AddSingleton<ISchema>(new ContactsSchema(new FuncDependencyResolver(type => sp.GetService(type))));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +72,7 @@ namespace Moonlay.Baas.Contacts
             }
 
             app.UseHttpsRedirection();
+            app.UseGraphiQl("/graphql", "/api/graphql");
             app.UseMvc();
         }
     }

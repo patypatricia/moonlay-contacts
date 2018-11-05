@@ -1,7 +1,5 @@
 ﻿using Moonlay.Domain;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Moonlay.Contacts.Domain.ValueObjects
 {
