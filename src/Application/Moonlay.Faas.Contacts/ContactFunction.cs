@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Moonlay.Faas.Contacts
@@ -26,7 +25,6 @@ namespace Moonlay.Faas.Contacts
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-
             string requestId = req.Query["request_id"];
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
@@ -34,9 +32,9 @@ namespace Moonlay.Faas.Contacts
 
             IActionResult response;
 
-            if(req.Method.ToLower() == "get")
+            if (req.Method.ToLower() == "get")
             {
-                var listOfContacts = await service.FindAllAsync(0, 25);
+                var listOfContacts = await service.GetAllAsync(0, 25);
 
                 var result = new GenericResponse<IEnumerable<ContactDto>>(true, listOfContacts.Select(o => new ContactDto { Id = o.Id, Names = o.Names }))
                 {

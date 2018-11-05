@@ -1,7 +1,5 @@
 ﻿using Moonlay.Contacts.Domain;
 using Moonlay.Contacts.Domain.ValueObjects;
-using Moonlay.Domain;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -25,9 +23,14 @@ namespace Moonlay.Contacts.Application
             return contact;
         }
 
-        public Task<IEnumerable<Contact>> FindAllAsync(int page, int pageSize)
+        public async Task<IEnumerable<Contact>> GetAllAsync(int page, int pageSize)
         {
-            return Task.FromResult(_contactRepository.GetAllAsync(page, pageSize));
+            return await _contactRepository.GetAllAsync(page, pageSize);
+        }
+
+        public async Task<Contact> GetAsync(int id)
+        {
+            return await _contactRepository.GetAsync(id);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Moonlay.Contacts.Domain;
 using Moonlay.Contacts.Domain.Events;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,7 +17,6 @@ namespace Moonlay.Contacts.EventHandlers
 
         public Task Handle(ContactCreated notification, CancellationToken cancellationToken)
         {
-
             return Task.CompletedTask;
         }
     }
