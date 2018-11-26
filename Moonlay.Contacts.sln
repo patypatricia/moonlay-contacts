@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.Contacts", "src\Libraries\Moonlay.Contacts\Moonlay.Contacts.csproj", "{297A519F-78BF-40EA-8A90-D32D99CC1BA8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.Contacts.Data", "src\Libraries\Moonlay.Contacts.Data\Moonlay.Contacts.Data.csproj", "{7780B372-353F-4886-A4BB-31560C10A1BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.Contacts.Infrastructure", "src\Libraries\Moonlay.Contacts.Data\Moonlay.Contacts.Infrastructure.csproj", "{7780B372-353F-4886-A4BB-31560C10A1BE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.Contacts.Domain", "src\Libraries\Moonlay.Contacts.Domain\Moonlay.Contacts.Domain.csproj", "{D46D9B7D-02A5-4738-AC37-08B9BE1847DB}"
 EndProject
@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.Faas.Contacts", "src\Application\Moonlay.Faas.Contacts\Moonlay.Faas.Contacts.csproj", "{81C00F29-E8B7-4EED-932E-1AFF02A57363}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moonlay.Baas.Contacts", "src\Application\Moonlay.Baas.Contacts\Moonlay.Baas.Contacts.csproj", "{AE8CF3D8-F980-4520-A6A4-D5D7E1564D00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonlay.Baas.Contacts", "src\Application\Moonlay.Baas.Contacts\Moonlay.Baas.Contacts.csproj", "{AE8CF3D8-F980-4520-A6A4-D5D7E1564D00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

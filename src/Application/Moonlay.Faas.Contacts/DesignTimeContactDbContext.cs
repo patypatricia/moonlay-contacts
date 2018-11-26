@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Moonlay.Contacts.Data
+namespace Moonlay.Contacts.Infrastructure
 {
     public class DesignTimeContactDbContext : IDesignTimeDbContextFactory<ContactDbContext>
     {

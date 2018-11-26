@@ -1,5 +1,6 @@
 ﻿using GraphQL.Types;
 using Moonlay.Contacts.Application;
+using System;
 
 namespace Moonlay.Baas.Contacts.Models
 {
@@ -9,8 +10,8 @@ namespace Moonlay.Baas.Contacts.Models
         {
             Field<ContactType>(
                 "contact",
-                arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
-                resolve: context => contatService.GetAsync(context.GetArgument<int>("id")).Result
+                arguments: new QueryArguments(new QueryArgument<StringGraphType> { Name = "id" }),
+                resolve: context => contatService.GetAsync(Guid.Parse(context.GetArgument<string>("id"))).Result
             );
 
             Field<ListGraphType<ContactType>>(

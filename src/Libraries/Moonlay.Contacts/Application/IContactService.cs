@@ -1,5 +1,6 @@
 ﻿using Moonlay.Contacts.Domain;
 using Moonlay.Contacts.Domain.ValueObjects;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,6 +12,6 @@ namespace Moonlay.Contacts.Application
 
         Task<IEnumerable<Contact>> GetAllAsync(int page, int pageSize);
 
-        Task<Contact> GetAsync(int id);
+        Task<Contact> GetAsync(Guid id);
     }
 }

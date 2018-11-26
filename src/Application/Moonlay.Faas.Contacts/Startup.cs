@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moonlay.Contacts.Application;
-using Moonlay.Contacts.Data;
+using Moonlay.Contacts.Infrastructure;
 using Moonlay.Contacts.Domain;
 using Moonlay.Contacts.EventHandlers;
 using Moonlay.Contacts.Repositories;
