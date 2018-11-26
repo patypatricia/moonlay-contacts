@@ -1,6 +1,7 @@
-﻿using Moonlay.Contacts.Data;
-using Moonlay.Contacts.Domain;
+﻿using Moonlay.Contacts.Domain;
+using Moonlay.Contacts.Domain.ReadModels;
 using Moonlay.Contacts.Domain.ValueObjects;
+using Moonlay.Contacts.Infrastructure;
 using Moonlay.Domain;
 using Newtonsoft.Json;
 using System;
@@ -21,35 +22,57 @@ namespace Moonlay.Contacts.Repositories
 
         public IUnitOfWork UnitOfWork => _dbContext;
 
-        public Task<Contact> AddAsync(People people)
+
+
+        public Task<Contact> AddAsync(Contact contact)
         {
-            var contact = new Contact(Guid.NewGuid(), new List<string> { people.FirstName, people.LastName }, people.Addresses, people.Phones);
+            var readModel = new ContactReadModel { };
 
-            contact.NamesJson = JsonConvert.SerializeObject(contact.Names);
-            contact.AddressJson = JsonConvert.SerializeObject(contact.Addresses);
-            contact.PhonesJson = JsonConvert.SerializeObject(contact.Phones);
+            readModel.NamesJson = JsonConvert.SerializeObject(contact.Names);
+            readModel.AddressJson = JsonConvert.SerializeObject(contact.Addresses);
+            readModel.PhonesJson = JsonConvert.SerializeObject(contact.Phones);
 
-            _dbContext.Contacts.Add(contact);
+            contact.DomainEvents.ToList().ForEach(o => readModel.AddDomainEvent(o));
+
+            _dbContext.Contacts.Add(readModel);
+
+            contact.ClearDomainEvents();
 
             return Task.FromResult(contact);
         }
 
-        public Task<IEnumerable<Contact>> GetAllAsync(int page, int pageSize)
+        public async Task<IQueryable<Contact>> GetAllAsync()
         {
-            return Task.FromResult(_dbContext.Contacts.OrderBy(o => o.Names)
-                .Skip(page * pageSize)
-                .Take(pageSize)
-                .AsEnumerable());
+            await Task.Yield();
+
+            return _dbContext.Contacts.Select(o => new Contact(o.Identity,
+                JsonConvert.DeserializeObject<List<string>>(o.NamesJson),
+                JsonConvert.DeserializeObject<List<Address>>(o.AddressJson),
+                JsonConvert.DeserializeObject<List<Phone>>(o.PhonesJson)));
+
         }
 
-        public Task<Contact> GetAsync(int contactId)
+        public async Task<Contact> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var query = await this.GetAllAsync();
+            return query.Where(o => o.Identity == id).FirstOrDefault();
         }
 
-        public Task UpdateAsync(Contact contact)
+        public async Task UpdateAsync(Contact contact)
         {
-            throw new NotImplementedException();
+            var readModel = _dbContext.Contacts.FirstOrDefault(o => o.Identity == contact.Identity);
+
+            readModel.NamesJson = JsonConvert.SerializeObject(contact.Names);
+            readModel.AddressJson = JsonConvert.SerializeObject(contact.Addresses);
+            readModel.PhonesJson = JsonConvert.SerializeObject(contact.Phones);
+
+            contact.DomainEvents.ToList().ForEach(o => readModel.AddDomainEvent(o));
+
+            _dbContext.Contacts.Update(readModel);
+
+            contact.ClearDomainEvents();
+
+            await Task.Yield();
         }
     }
 }

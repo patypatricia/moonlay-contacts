@@ -10,23 +10,21 @@ namespace Moonlay.Contacts.Domain
 {
     public sealed class Contact : Entity, IAggregateRoot, IContact
     {
-        [NotMapped]
         public IReadOnlyList<string> Names { get; }
 
-        [NotMapped]
         public IReadOnlyList<Address> Addresses { get; private set; }
 
-        [NotMapped]
         public IReadOnlyList<Phone> Phones { get; private set; }
 
-        public Guid Identity { get; set; }
-        public string NamesJson { get; set; }
-        public string AddressJson { get; set; }
-        public string PhonesJson { get; set; }
+        public Guid Identity { get; private set; }
+
+        public string Website { get; private set; }
 
         private Contact()
         {
         }
+
+        public void SetId(int id) => Id = id;
 
         public Contact(Guid identity, List<string> names, List<Address> addresses, List<Phone> phones)
         {
@@ -60,6 +58,11 @@ namespace Moonlay.Contacts.Domain
                 throw Validator.ErrorValidation(("Phone", "Was Exists"));
 
             Phones = list;
+        }
+
+        public void SetWebsite(string website)
+        {
+            Website = website;
         }
     }
 }
