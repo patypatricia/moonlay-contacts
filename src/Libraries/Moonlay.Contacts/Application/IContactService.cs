@@ -8,10 +8,8 @@ namespace Moonlay.Contacts.Application
 {
     public interface IContactService
     {
-        Task<Contact> AddPeopleAsync(People people);
+        Task<Contact> CreateContactAsync(People people);
 
-        Task<IEnumerable<Contact>> GetAllAsync(int page, int pageSize);
-
-        Task<Contact> GetAsync(Guid id);
+        Task<Contact> CreateContactAsync(Company company);
     }
 }

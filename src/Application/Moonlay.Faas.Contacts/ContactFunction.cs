@@ -5,6 +5,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Moonlay.Contacts.Application;
+using Moonlay.Contacts.Domain;
 using Moonlay.Contacts.Models;
 using Moonlay.Domain;
 using Newtonsoft.Json;
@@ -20,7 +21,7 @@ namespace Moonlay.Faas.Contacts
         [FunctionName("Contacts")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
-            [Inject]IContactService service,
+            [Inject]IContactRepository repo,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -34,7 +35,8 @@ namespace Moonlay.Faas.Contacts
 
             if (req.Method.ToLower() == "get")
             {
-                var listOfContacts = await service.GetAllAsync(0, 25);
+                var query = await repo.GetAllAsync();
+                var listOfContacts = query.Skip(0).Take(25).ToList();
 
                 var result = new GenericResponse<IEnumerable<ContactDto>>(true, listOfContacts.Select(o => new ContactDto { Id = o.Id, Names = o.Names }))
                 {

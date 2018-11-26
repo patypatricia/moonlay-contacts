@@ -9,7 +9,7 @@ namespace Moonlay.Contacts.Domain
 {
     public interface IContactRepository : IRepository<Contact>
     {
-        Task<Contact> AddAsync(People people);
+        Task<Contact> AddAsync(Contact contact);
 
         Task UpdateAsync(Contact contact);
 

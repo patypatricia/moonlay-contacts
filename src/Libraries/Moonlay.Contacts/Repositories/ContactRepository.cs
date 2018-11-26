@@ -22,10 +22,10 @@ namespace Moonlay.Contacts.Repositories
 
         public IUnitOfWork UnitOfWork => _dbContext;
 
-        public Task<Contact> AddAsync(People people)
-        {
-            var contact = new Contact(Guid.NewGuid(), new List<string> { people.FirstName, people.LastName }, people.Addresses, people.Phones);
 
+
+        public Task<Contact> AddAsync(Contact contact)
+        {
             var readModel = new ContactReadModel { };
 
             readModel.NamesJson = JsonConvert.SerializeObject(contact.Names);

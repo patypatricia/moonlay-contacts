@@ -1,9 +1,16 @@
 ﻿using GraphQL.Types;
 using Moonlay.Contacts.Application;
 using Moonlay.Contacts.Domain.ValueObjects;
+using System.Collections.Generic;
 
 namespace Moonlay.Baas.Contacts.Models
 {
+    public struct PeopleForm
+    {
+        public string FirstName;
+        public string LastName;
+    }
+
     public class ContactsMutation : ObjectGraphType
     {
         public ContactsMutation(IContactService contactService)
@@ -15,9 +22,9 @@ namespace Moonlay.Baas.Contacts.Models
                 ),
                 resolve: context =>
                 {
-                    var people = context.GetArgument<People>("people");
+                    var arg = context.GetArgument<PeopleForm>("people");
 
-                    return contactService.AddPeopleAsync(people);
+                    return contactService.CreateContactAsync(new People(arg.FirstName, arg.LastName));
                 });
         }
     }

@@ -16,7 +16,9 @@ namespace Moonlay.Contacts.Domain
 
         public IReadOnlyList<Phone> Phones { get; private set; }
 
-        public Guid Identity { get; set; }
+        public Guid Identity { get; private set; }
+
+        public string Website { get; private set; }
 
         private Contact()
         {
@@ -56,6 +58,11 @@ namespace Moonlay.Contacts.Domain
                 throw Validator.ErrorValidation(("Phone", "Was Exists"));
 
             Phones = list;
+        }
+
+        public void SetWebsite(string website)
+        {
+            Website = website;
         }
     }
 }
