@@ -4,19 +4,18 @@ using System.Linq;
 
 namespace Moonlay.Contacts.Domain.ValueObjects
 {
-    public sealed class People : ValueObject, IPeople
+    public class Company : ValueObject
     {
-        public People(string firstName, string lastName)
+        public Company(string name, string website)
         {
-            FirstName = firstName;
-            LastName = lastName;
+            Name = name;
+            Website = website;
         }
-
-        public string FirstName { get; }
-        public string LastName { get; }
 
         public List<Address> Addresses { get; private set; }
         public List<Phone> Phones { get; private set; }
+        public string Name { get; }
+        public string Website { get; }
 
         public void AddAddress(Address address)
         {
@@ -40,8 +39,10 @@ namespace Moonlay.Contacts.Domain.ValueObjects
 
         protected override IEnumerable<object> GetAtomicValues()
         {
-            yield return FirstName;
-            yield return LastName;
+            yield return Name;
+            yield return Website;
+            yield return Phones;
+            yield return Addresses;
         }
     }
 }

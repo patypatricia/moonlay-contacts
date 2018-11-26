@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Moonlay.Contacts.Domain;
+using Moonlay.Contacts.Domain.ReadModels;
 using Moonlay.Domain;
 
-namespace Moonlay.Contacts.Data
+namespace Moonlay.Contacts.Infrastructure
 {
     public interface IContactDbContext : IUnitOfWork
     {
-        DbSet<Contact> Contacts { get; }
+        DbSet<ContactReadModel> Contacts { get; }
     }
 }

@@ -2,11 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Moonlay.Contacts.Domain;
+using Moonlay.Contacts.Domain.ReadModels;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Moonlay.Contacts.Data
+namespace Moonlay.Contacts.Infrastructure
 {
     public class ContactDbContext : DbContext, IContactDbContext
     {
@@ -23,7 +24,7 @@ namespace Moonlay.Contacts.Data
             System.Diagnostics.Debug.WriteLine("ContactDbContext::ctor ->" + this.GetHashCode());
         }
 
-        public DbSet<Contact> Contacts => this.Set<Contact>();
+        public DbSet<ContactReadModel> Contacts => this.Set<ContactReadModel>();
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -53,14 +54,18 @@ namespace Moonlay.Contacts.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Contact>(ConfigContact);
+            modelBuilder.Entity<ContactReadModel>(ConfigContact);
         }
 
-        private void ConfigContact(EntityTypeBuilder<Contact> builder)
+        private void ConfigContact(EntityTypeBuilder<ContactReadModel> builder)
         {
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.NamesJson).IsRequired();
+            builder.Property(p => p.NamesJson).HasMaxLength(500).IsRequired();
+            builder.Property(p => p.AddressJson).HasMaxLength(1000).IsRequired();
+            builder.Property(p => p.PhonesJson).HasMaxLength(1000).IsRequired();
+
+
         }
     }
 }

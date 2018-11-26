@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Moonlay.Contacts.Data\Moonlay.Contacts.Data.csproj" />
+    <ProjectReference Include="..\Moonlay.Contacts.Data\Moonlay.Contacts.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

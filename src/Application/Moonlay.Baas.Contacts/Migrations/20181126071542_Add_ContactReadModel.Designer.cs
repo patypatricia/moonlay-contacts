@@ -10,8 +10,8 @@ using Moonlay.Contacts.Infrastructure;
 namespace Moonlay.Baas.Contacts.Migrations
 {
     [DbContext(typeof(ContactDbContext))]
-    [Migration("20181101042418_Initial")]
-    partial class Initial
+    [Migration("20181126071542_Add_ContactReadModel")]
+    partial class Add_ContactReadModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,20 +21,25 @@ namespace Moonlay.Baas.Contacts.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Moonlay.Contacts.Domain.Contact", b =>
+            modelBuilder.Entity("Moonlay.Contacts.Domain.ReadModels.ContactReadModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AddressJson");
+                    b.Property<string>("AddressJson")
+                        .IsRequired()
+                        .HasMaxLength(1000);
 
                     b.Property<Guid>("Identity");
 
                     b.Property<string>("NamesJson")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(500);
 
-                    b.Property<string>("PhonesJson");
+                    b.Property<string>("PhonesJson")
+                        .IsRequired()
+                        .HasMaxLength(1000);
 
                     b.HasKey("Id");
 

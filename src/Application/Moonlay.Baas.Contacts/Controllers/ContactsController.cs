@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moonlay.Contacts.Application;
+using Moonlay.Contacts.Domain;
 using Moonlay.Contacts.Models;
 using Moonlay.Domain;
 using System.Collections.Generic;
@@ -13,17 +14,21 @@ namespace Moonlay.Baas.Contacts.Controllers
     public class ContactsController : ControllerBase
     {
         private readonly IContactService _contactService;
+        private readonly IContactRepository _contactRepository;
 
-        public ContactsController(IContactService contactService)
+        public ContactsController(IContactService contactService, IContactRepository contactRepository)
         {
             _contactService = contactService;
+            _contactRepository = contactRepository;
         }
 
         // GET api/values
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ContactDto>>> GetAsync(int page = 0, int page_size = 25)
         {
-            var listOfContacts = await _contactService.GetAllAsync(page, page_size);
+            var query = await _contactRepository.GetAllAsync();
+            var listOfContacts = query.Skip(page * page_size).Take(page_size).ToList();
+
 
             string requestId = this.Request.Query["request_id"];
 
